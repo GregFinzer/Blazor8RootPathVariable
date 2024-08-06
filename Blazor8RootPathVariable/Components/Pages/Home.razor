@@ -1,0 +1,31 @@
+﻿@page "/"
+@page "/{mylocation}/{mypageName}"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+@((MarkupString)BodyContent)
+
+@code {
+    [Parameter] public string? mylocation { get; set; }
+    [Parameter] public string? mypageName { get; set; }
+    private string BodyContent = "";
+
+    protected override void OnInitialized()
+    {
+        if (mylocation == null)
+        {
+            mylocation = "National";
+        }
+
+        if (mypageName == null)
+        {
+            mypageName = "Home";
+        }
+
+        BodyContent = $"<p>Location: {mylocation}</p><p>Page Name: {mypageName}</p>";
+    }
+}
