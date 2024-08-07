@@ -4,19 +4,18 @@ This sample project is to reproduce the defect in Blazor 8 Interactive Server:
 
 ***HelloWorldClass.js:1 Uncaught SyntaxError: Unexpected token '<'***
 
-TLDR; Blazor 8 cannot handle variables in a root path and begins serving static files (CSS and JavaScript) as garbage. 
+TLDR; Blazor 8 cannot handle variables in a root path and begins serving static files (CSS and JavaScript) as garbage.  
 
-Here is what I have found:
-* Cleaning the solution and Building does not fix the error.
-* Manually deleting the bin and obj directories does not fix the error.
-* Doing a Ctrl-F5 in the browser does not fix the error.
-* A temporary but poor workaround is to comment out the route with the path root variable and then run the solution again and then uncomment it.  This works until the next hard refresh and then it is broken again.  In this sample project, comment out this line, run the project, then uncomment out this line and run it again:
+This worked in Blazor 7 but not in Blazor 8:
+`@page "/{mylocation}/{mypageName}"`
 
-    `@page "/{mylocation}/{mypageName}"`
-    
-* A permanent but poor workaround is to prefix the route.  Example:
+You have to put this in Blazor 8:
+`@page "/{mylocation}/{mypageName:nonfile}"`
 
-    `@page "pages/{mylocation}/{mypageName}"`
+Defect logged to Microsoft:
+https://github.com/dotnet/aspnetcore/issues/57192
+
+
 
 Steps to reproduce the error:
 1.  In Visual Studio 2022, create a Blazor 8 Web App.
@@ -39,7 +38,7 @@ Steps to reproduce the error:
 
 ```html
 @page "/"
-@page "/{mylocation}/{mypageName}"
+@page "/{mylocation}/{mypageName:nonfile}"
 
 <PageTitle>Home</PageTitle>
 
@@ -81,5 +80,5 @@ window.HelloWorldClass = {
 ```
 11.  Run the solution
 12.  Do a Ctrl-F5 in the Browser to do a hard refresh
-13.  View the error in the console
+
 
