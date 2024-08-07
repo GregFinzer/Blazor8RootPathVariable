@@ -7,13 +7,16 @@ This sample project is to reproduce the defect in Blazor 8 Interactive Server:
 TLDR; Blazor 8 cannot handle variables in a root path and begins serving static files (CSS and JavaScript) as garbage.  
 
 This worked in Blazor 7 but not in Blazor 8:
+
 `@page "/{mylocation}/{mypageName}"`
 
 You have to put this in Blazor 8:
+
 `@page "/{mylocation}/{mypageName:nonfile}"`
 
 Defect logged to Microsoft:
-https://github.com/dotnet/aspnetcore/issues/57192
+
+    https://github.com/dotnet/aspnetcore/issues/57192
 
 
 
